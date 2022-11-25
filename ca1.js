@@ -94,11 +94,18 @@ class RegistrationForm extends React.Component {
     if (typeof fields["password"] !== "undefined") {
 
       if (!fields["password"].match("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")) {
-        if(fields["password"].match("^(((?=.[a-z])(?=.[A-Z]))|((?=.[a-z])(?=.[0-9]))|((?=.[A-Z])(?=.[0-9])))(?=.{6,})"))
-        errors["password"]="Medium strong";
-        else if(fields["password"].match("^(((?=.[a-z])|(?=.[A-Z]))|((?=.[a-z])|(?=.[0-9]))|((?=.[A-Z])|(?=.[0-9])))|(?=.{6,})")){
-            errors["password"]="Too weak";
-        } 
+        if (!fields["password"].match(/^.(?=.{8,})/)){
+            formIsValid = false;
+            errors["password"]="*Password is weak.";
+        }
+        else if (!fields["password"].match("/^.(?=.\d)/")){
+            formIsValid = false;
+            errors["password"]="*Password is weak include small,caps and special characters.";
+        }
+        else if (!fields["password"].match("/^.(?=.[a-z])")){
+            formIsValid = false;
+            errors["password"]="*Password is weak include caps and special characters.";
+        }
         // formIsValid = false;
     }
     else{
